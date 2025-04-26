@@ -1,25 +1,48 @@
 {% extends 'layout.html' %}
+
 {% block content %}
-<h2>Search Quarters</h2>
+<div class="relative min-h-screen ml-5 flex items-center justify-center overflow-hidden bg-gradient-to-r ">
 
-<h4>Search by Rank</h4>
-<form method="post" action="{{ url_for('search.search_by_rank') }}">
-    <select class="form-control mb-2" name="rank" required>
-        <option>Leading Seaman</option>
-        <option>Petty Officer</option>
-        <option>Chief Petty Officer</option>
-        <option>Master Chief Petty Officer (MCPO)</option>
-    </select>
-    <button type="submit" class="btn btn-secondary mb-4">Search</button>
-</form>
+    <!-- Background Image -->
+    <div class="absolute inset-0 bg-cover bg-center opacity-30 blur-sm -z-10" 
+        style="background-image: url('https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?auto=format&fit=crop&w=2070&q=80');">
+    </div>
 
-<h4>Search by Building</h4>
-<form method="post" action="{{ url_for('search.search_by_building') }}">
-    <select class="form-control mb-2" name="building" required>
-        {% for b in buildings %}
-        <option>{{ b }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit" class="btn btn-secondary">Search</button>
-</form>
+    <div class="bg-white bg-opacity-90 p-8 rounded-xl shadow-lg w-full max-w-lg mt-4 mb-4 text-center">
+
+        <h2 class="text-4xl font-bold text-center mb-6 text-blue-800">Search Quarters</h2>
+
+        <!-- Search by Rank -->
+        <div class="mb-8">
+            <h4 class="text-2xl font-semibold text-blue-700 mb-4">Search by Rank</h4>
+            <form method="post" action="{{ url_for('search.search_by_rank') }}" class="space-y-4">
+                <select class="w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" name="rank" required>
+                    <option>Leading Seaman</option>
+                    <option>Petty Officer</option>
+                    <option>Chief Petty Officer</option>
+                    <option>Master Chief Petty Officer (MCPO)</option>
+                </select>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+                    Search
+                </button>
+            </form>
+        </div>
+
+        <!-- Search by Building -->
+        <div>
+            <h4 class="text-2xl font-semibold text-blue-700 mb-4">Search by Building</h4>
+            <form method="post" action="{{ url_for('search.search_by_building') }}" class="space-y-4">
+                <select class="w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" name="building" required>
+                    {% for b in buildings %}
+                    <option>{{ b }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+                    Search
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
 {% endblock %}

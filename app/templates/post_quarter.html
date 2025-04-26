@@ -1,62 +1,100 @@
 {% extends 'layout.html' %}
-{% block content %}
-<h2>Post a Quarter</h2>
 
-{% if already_posted %}
-<div class="alert alert-warning">
-    <strong>Notice:</strong> You have already posted a quarter. Only one quarter per user is allowed.
+{% block content %}
+<div class="relative min-h-screen ml-5 flex items-center justify-center overflow-hidden">
+
+    <!-- Background Image with Blur and Opacity -->
+    <div class="absolute inset-0 bg-cover bg-center opacity-50 blur-sm -z-10" style="background-image: url('https://media.istockphoto.com/id/1468678659/photo/hands-documents-and-writing-with-a-woman-in-a-hospital-filling-out-an-application-or.webp?a=1&b=1&s=612x612&w=0&k=20&c=TYBooLa9qkKH6KzBhjgxClSOUhWg1G5xtbhKGyBgprE=');"></div>
+
+    <!-- Post a Quarter Card -->
+    <div class="bg-white bg-opacity-70 p-8 bg-blue-600 rounded-xl shadow-lg w-full max-w-lg mt-4 mb-4 text-center">
+        <h2 class="text-4xl font-bold text-center mb-6 text-blue-800">Post a Quarter</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="text-white px-6 py-4 border-0 rounded relative mb-4 bg-green-500">
+                        <span class="inline-block align-middle mr-8">{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if already_posted %}
+        <!-- Alert for Existing Post -->
+        <div class="alert alert-warning bg-yellow-100 text-yellow-700 border-l-4 border-yellow-500 p-4 mb-4">
+            <strong>Warning:</strong> You have already posted a quarter. You need to delete it before posting a new one.
+        </div>
+
+        <!-- Delete Existing Quarter Button -->
+        <form action="{{ url_for('post.delete_quarter') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your existing quarter?');">
+            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md mb-4">
+                Delete Existing Quarter
+            </button>
+        </form>
+        {% else %}
+        <!-- Quarter Posting Form -->
+        <form method="post" class="space-y-4">
+            <div class="text-left">
+                <label class="block text-blue-800 text-lg font-medium">Rank:</label>
+                <select class="form-control w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" name="rank" required>
+                    {% for r in ranks %}
+                    <option>{{ r }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="text-left">
+                <label class="block text-blue-800 text-lg font-medium">Name:</label>
+                <input type="text" class="form-control w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" name="name" required>
+            </div>
+
+            <div class="text-left">
+                <label class="block text-blue-800 text-lg font-medium">Contact:</label>
+                <input type="text" class="form-control w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" name="contact" required>
+            </div>
+
+            <div class="text-left">
+                <label class="block text-blue-800 text-lg font-medium">Building Name:</label>
+                <select class="form-control w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" name="building" required>
+                    {% for b in buildings %}
+                    <option>{{ b }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="text-left">
+                <label class="block text-blue-800 text-lg font-medium">Floor:</label>
+                <select class="form-control w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" name="floor" required>
+                    {% for f in floors %}
+                    <option>{{ f }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="text-left">
+                <label class="block text-blue-800 text-lg font-medium">Section:</label>
+                <select class="form-control w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" name="section" required>
+                    {% for s in sections %}
+                    <option>{{ s }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="text-left">
+                <label class="block text-blue-800 text-lg font-medium">Notice Period:</label>
+                <select class="form-control w-full px-4 py-2 border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" name="notice_period" required>
+                    {% for n in notice_periods %}
+                    <option>{{ n }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+                Post Quarter
+            </button>
+        </form>
+        {% endif %}
+    </div>
 </div>
-{% else %}
-<form method="post">
-    <div class="mb-3">
-        <label>Rank:</label>
-        <select class="form-control" name="rank" required>
-            {% for r in ranks %}
-            <option>{{ r }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="mb-3">
-        <label>Name:</label>
-        <input type="text" class="form-control" name="name" required>
-    </div>
-    <div class="mb-3">
-        <label>Contact:</label>
-        <input type="text" class="form-control" name="contact" required>
-    </div>
-    <div class="mb-3">
-        <label>Building Name:</label>
-        <select class="form-control" name="building" required>
-            {% for b in buildings %}
-            <option>{{ b }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="mb-3">
-        <label>Floor:</label>
-        <select class="form-control" name="floor" required>
-            {% for f in floors %}
-            <option>{{ f }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="mb-3">
-        <label>Section:</label>
-        <select class="form-control" name="section" required>
-            {% for s in sections %}
-            <option>{{ s }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="mb-3">
-        <label>Notice Period:</label>
-        <select class="form-control" name="notice_period" required>
-            {% for n in notice_periods %}
-            <option>{{ n }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Post Quarter</button>
-</form>
-{% endif %}
 {% endblock %}

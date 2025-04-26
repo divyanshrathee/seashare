@@ -2,28 +2,113 @@
 <html lang="en">
 <head>
     <title>Quarter Sharing System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Sidebar styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh; /* Full height of the viewport */
+            width: 235px;
+            background-color: #2D3748;
+            transition: transform 0.3s ease-in-out;
+            z-index: 10; /* Keep sidebar above content */
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-250px);
+        }
+
+        .sidebar .nav-item {
+            margin: 15px 0;
+        }
+
+        .sidebar .nav-link {
+            color: #E2E8F0;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover {
+            color: #38B2AC;
+            transform: translateX(5px);
+        }
+
+        /* Content styles */
+        .content {
+            transition: margin-left 0.3s ease;
+            margin-left: 235px; /* Push content right to accommodate sidebar */
+            padding-top: 20px; /* Add top padding to avoid content overlapping the sidebar */
+        }
+
+        .collapsed-content {
+            margin-left: 0; /* Remove left margin when sidebar is collapsed */
+        }
+
+        /* For smaller screens */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-250px);
+                z-index: 10;
+            }
+            .sidebar.collapsed {
+                transform: translateX(0);
+            }
+            .content {
+                margin-left: 0;
+            }
+        }
+
+        /* Hide toggle button and sidebar on login page */
+        .hide-on-login {
+            display: none;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-100">
 <div class="container-fluid">
     <div class="row">
         {% if session.get('user_id') %}
         <!-- Sidebar -->
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar p-3">
-            <h4>Menu</h4>
+        <nav id="sidebar" class="sidebar p-3">
+            <h4 class="text-white font-bold mb-6 text-3xl">SeaShare</h4>
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('post.post_quarter') }}">Post a Quarter</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('search.search') }}">Search</a></li>
-                <li class="nav-item"><a class="nav-link text-danger" href="{{ url_for('auth.logout') }}">Logout</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('post.post_quarter') }}">Post a Quarter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('search.search') }}">Search</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="{{ url_for('auth.logout') }}">Logout</a>
+                </li>
             </ul>
         </nav>
         {% endif %}
 
         <!-- Content -->
-        <main class="col {% if session.get('user_id') %}col-md-9 ms-sm-auto col-lg-10{% else %}col-md-12{% endif %} px-md-4 mt-3">
+        <main id="content" class="col {% if session.get('user_id') %}col-md-9 ms-sm-auto col-lg-10{% else %}col-md-12{% endif %} px-md-4 mt-3">
             {% block content %}{% endblock %}
         </main>
     </div>
 </div>
+
+<!-- Toggle Button for Sidebar (Hidden on login page) -->
+<button id="sidebarToggle" class="fixed top-5 left-5 z-50 p-2 bg-blue-600 text-white rounded-full shadow-md focus:outline-none hide-on-login">
+    <i class="bi bi-list"></i> <!-- You can use a font-awesome icon or any other icon library -->
+</button>
+
+<script>
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('content');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+
+    sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        content.classList.toggle('collapsed-content');
+    });
+</script>
 </body>
 </html>

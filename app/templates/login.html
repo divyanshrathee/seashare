@@ -1,22 +1,53 @@
 {% extends 'layout.html' %}
 {% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-4">
-        <h2 class="text-center">Login</h2>
-        <form method="post">
-            <div class="mb-3">
-                <label>User ID:</label>
-                <input type="text" class="form-control" name="user_id" required>
+<div class="relative min-h-screen flex items-center justify-center overflow-hidden">
+
+    <!-- Background Image -->
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1587150646546-94c870171cb2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NjB8fGElMjBzb2NpZXR5JTIwd2l0aCUyMGhvdXNlc3xlbnwwfHwwfHx8MA%3D%3D')] bg-cover bg-center opacity-50 blur-sm -z-10"></div>
+
+    <!-- App Name (SeaShare) -->
+    <div class="absolute top-8 w-full text-center animate-sail">
+        <h1 class="text-5xl font-extrabold text-blue-800 drop-shadow-md">SeaShare</h1>
+    </div>
+
+    <!-- Login Card -->
+    <div class="bg-white bg-opacity-80 p-8 rounded-xl shadow-lg w-full max-w-md text-center relative z-20 transform transition-transform duration-500 hover:scale-105">
+
+        <h2 class="text-3xl font-bold text-center mb-6 text-blue-800">Login</h2>
+
+        <form method="post" class="space-y-4">
+            <div class="text-left">
+                <label class="block text-gray-700 text-lg font-medium">User ID:</label>
+                <input type="text" name="user_id" required
+                    class="w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent">
             </div>
-            <div class="mb-3">
-                <label>Password:</label>
-                <input type="password" class="form-control" name="password" required>
+            <div class="text-left">
+                <label class="block text-gray-700 text-lg font-medium">Password:</label>
+                <input type="password" name="password" required
+                    class="w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent">
             </div>
             {% if error %}
-            <div class="text-danger mb-3">{{ error }}</div>
+            <div class="text-red-500 text-center">{{ error }}</div>
             {% endif %}
-            <button type="submit" class="btn btn-primary w-100">Login</button>
+            <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-300">
+                Login
+            </button>
         </form>
     </div>
+
 </div>
+
+<!-- Custom CSS Animation -->
+<style>
+@keyframes sail {
+    0% { transform: translateX(-100%); opacity: 0; }
+    50% { transform: translateX(10%) rotate(2deg); opacity: 1; }
+    100% { transform: translateX(0) rotate(0deg); }
+}
+
+.animate-sail {
+    animation: sail 2s ease-out forwards;
+}
+</style>
 {% endblock %}

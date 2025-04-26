@@ -1,29 +1,42 @@
 {% extends 'layout.html' %}
-{% block content %}
-<h2>Search Results</h2>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Rank</th>
-            <th>Name</th>
-            <th>Contact</th>
-            <th>Building</th>
-            <th>Notice Period</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for q in quarters %}
-        <tr>
-            <td>{{ q[0] }}</td>
-            <td>{{ q[1] }}</td>
-            <td>{{ q[2] }}</td>
-            <td>{{ q[3] }}</td>
-            <td>{{ q[4] }}</td>
-            <td>{{ q[5] }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+{% block content %}
+<div class="relative min-h-screen ml-5 flex items-center justify-center overflow-hidden">
+
+    <!-- Background Image -->
+    <div class="absolute inset-0 bg-cover bg-center opacity-30 blur-sm -z-10" style="background-image: url('https://media.istockphoto.com/id/1468678659/photo/hands-documents-and-writing-with-a-woman-in-a-hospital-filling-out-an-application-or.webp?a=1&b=1&s=612x612&w=0&k=20&c=TYBooLa9qkKH6KzBhjgxClSOUhWg1G5xtbhKGyBgprE=');"></div>
+
+    <div class="bg-white bg-opacity-90 p-8 rounded-xl shadow-lg w-full max-w-5xl mt-4 mb-4">
+
+        <h2 class="text-4xl font-bold text-center mb-8 text-blue-800">Search Results</h2>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                <thead class="bg-blue-600 text-white">
+                    <tr>
+                        <th class="py-3 px-6 text-left">S.No</th>
+                        <th class="py-3 px-6 text-left">ID</th>
+                        <th class="py-3 px-6 text-left">Rank</th>
+                        <th class="py-3 px-6 text-left">Name</th>
+                        <th class="py-3 px-6 text-left">Contact</th>
+                        <th class="py-3 px-6 text-left">Building</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    {% for q in quarters %}
+                    <tr class="hover:bg-blue-100 transition">
+                        <td class="py-4 px-6">{{ q[0] }}</td>
+                        <td class="py-4 px-6">{{ q[1] }}</td>
+                        <td class="py-4 px-6">{{ q[2] }}</td>
+                        <td class="py-4 px-6">{{ q[3] }}</td>
+                        <td class="py-4 px-6">{{ q[4] }}</td>
+                        <td class="py-4 px-6">{{ q[5] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
 {% endblock %}
