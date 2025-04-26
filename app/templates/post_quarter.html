@@ -10,11 +10,30 @@
     <div class="bg-white bg-opacity-70 p-8 bg-blue-600 rounded-xl shadow-lg w-full max-w-lg mt-4 mb-4 text-center">
         <h2 class="text-4xl font-bold text-center mb-6 text-blue-800">Post a Quarter</h2>
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="text-white px-6 py-4 border-0 rounded relative mb-4 bg-green-500">
+                        <span class="inline-block align-middle mr-8">{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
         {% if already_posted %}
-        <div class="alert alert-warning bg-yellgow-200 text-yellow-900 border-yellow-300 mb-4 p-3 rounded-lg">
-            <strong>Notice:</strong> You have successfully posted a quarter. Only one quarter per user is allowed.
+        <!-- Alert for Existing Post -->
+        <div class="alert alert-warning bg-yellow-100 text-yellow-700 border-l-4 border-yellow-500 p-4 mb-4">
+            <strong>Warning:</strong> You have already posted a quarter. You need to delete it before posting a new one.
         </div>
+
+        <!-- Delete Existing Quarter Button -->
+        <form action="{{ url_for('post.delete_quarter') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete your existing quarter?');">
+            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md mb-4">
+                Delete Existing Quarter
+            </button>
+        </form>
         {% else %}
+        <!-- Quarter Posting Form -->
         <form method="post" class="space-y-4">
             <div class="text-left">
                 <label class="block text-blue-800 text-lg font-medium">Rank:</label>
