@@ -1,46 +1,25 @@
+# app/init_db.py
+
 import sqlite3
 import os
-from app.utils.security import hash_password
+from app.database.schema import CREATE_USERS_TABLE, CREATE_QUARTERS_TABLE
+from app.database.dummy_data import DUMMY_USERS
 
 DB_FILE = 'database.db'
 
 def init_db():
-    if not os.path.exists(DB_FILE):  # Only create if it doesn't exist
-        conn = sqlite3.connect(DB_FILE)
-        c = conn.cursor()
+    if os.path.exists(DB_FILE):
+        os.remove(DB_FILE)
 
-        # Create users table
-        c.execute('''
-            CREATE TABLE users (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL UNIQUE,
-                username TEXT NOT NULL,
-                password TEXT NOT NULL
-            )
-        ''')
+    conn = sqlite3.connect(DB_FILE)
+    c = conn.cursor()
 
-        # Create quarters table
-        c.execute('''
-            CREATE TABLE quarters (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL UNIQUE,
-                rank TEXT NOT NULL,
-                name TEXT NOT NULL,
-                contact TEXT NOT NULL,
-                building TEXT NOT NULL,
-                notice_period TEXT NOT NULL
-            )
-        ''')
+    # Create tables
+    c.execute(CREATE_USERS_TABLE)
+    c.execute(CREATE_QUARTERS_TABLE)
 
-        # Insert dummy users
-        users = [
-            (1001, 'Vishal', hash_password('vishal123')),
-            (1002, 'Kunal', hash_password('kunal123')),
-            (1003, 'Ajay', hash_password('ajay123')),
-            (1004, 'Rohit', hash_password('rohit123')),
-            (1005, 'Keshav', hash_password('keshav123')),
-        ]
-        c.executemany('INSERT INTO users (user_id, username, password) VALUES (?, ?, ?)', users)
+    # Insert dummy users
+    c.executemany('INSERT INTO users (user_id, username, password) VALUES (?, ?, ?)', DUMMY_USERS)
 
-        conn.commit()
-        conn.close()
+    conn.commit()
+    conn.close()
