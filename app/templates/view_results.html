@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Search Results</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Building</th>
+            <th>Notice Period</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for q in quarters %}
+        <tr>
+            <td>{{ q[0] }}</td>
+            <td>{{ q[1] }}</td>
+            <td>{{ q[2] }}</td>
+            <td>{{ q[3] }}</td>
+            <td>{{ q[4] }}</td>
+            <td>{{ q[5] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

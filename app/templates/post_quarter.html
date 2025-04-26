@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Post a Quarter</h2>
+
+{% if already_posted %}
+<div class="alert alert-warning">
+    <strong>Notice:</strong> You have already posted a quarter. Only one quarter per user is allowed.
+</div>
+{% else %}
+<form method="post">
+    <div class="mb-3">
+        <label>Rank:</label>
+        <select class="form-control" name="rank" required>
+            {% for r in ranks %}
+            <option>{{ r }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Name:</label>
+        <input type="text" class="form-control" name="name" required>
+    </div>
+    <div class="mb-3">
+        <label>Contact:</label>
+        <input type="text" class="form-control" name="contact" required>
+    </div>
+    <div class="mb-3">
+        <label>Building Name:</label>
+        <select class="form-control" name="building" required>
+            {% for b in buildings %}
+            <option>{{ b }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Floor:</label>
+        <select class="form-control" name="floor" required>
+            {% for f in floors %}
+            <option>{{ f }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Section:</label>
+        <select class="form-control" name="section" required>
+            {% for s in sections %}
+            <option>{{ s }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Notice Period:</label>
+        <select class="form-control" name="notice_period" required>
+            {% for n in notice_periods %}
+            <option>{{ n }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Post Quarter</button>
+</form>
+{% endif %}
+{% endblock %}
