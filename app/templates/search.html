@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Search Quarters</h2>
+
+<h4>Search by Rank</h4>
+<form method="post" action="{{ url_for('search.search_by_rank') }}">
+    <select class="form-control mb-2" name="rank" required>
+        <option>Leading Seaman</option>
+        <option>Petty Officer</option>
+        <option>Chief Petty Officer</option>
+        <option>Master Chief Petty Officer (MCPO)</option>
+    </select>
+    <button type="submit" class="btn btn-secondary mb-4">Search</button>
+</form>
+
+<h4>Search by Building</h4>
+<form method="post" action="{{ url_for('search.search_by_building') }}">
+    <select class="form-control mb-2" name="building" required>
+        {% for b in buildings %}
+        <option>{{ b }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-secondary">Search</button>
+</form>
+{% endblock %}
