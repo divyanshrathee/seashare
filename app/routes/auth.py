@@ -12,7 +12,8 @@ def home():
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
+    error = None 
+    print('hello')
     if request.method == 'POST':
         user_id = request.form['user_id']
         password = request.form['password']

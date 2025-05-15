@@ -8,7 +8,7 @@ from app.database.dummy_data import DUMMY_USERS
 DB_FILE = 'database.db'
 
 def init_db():
-    # if os.not.exists(DB_FILE):
+    
     if not os.path.exists(DB_FILE):
         os.remove(DB_FILE)
 
